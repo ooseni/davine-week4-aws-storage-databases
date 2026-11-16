@@ -1,0 +1,80 @@
+== Week 4 teardown (16 November 2026 10:45 UTC, us-east-1)
+
+== DynamoDB on-demand backups
+  deleted backup davine-wk4-carts-review
+
+== terraform destroy
+  aws_default_security_group.default: Destruction complete
+  aws_s3_object.site["index.html"]: Destruction complete
+  aws_s3_bucket_server_side_encryption_configuration.site: Destruction complete
+  aws_s3_bucket_server_side_encryption_configuration.data[0]: Destruction complete
+  aws_s3_object.site["styles.css"]: Destruction complete
+  aws_s3_object.internal["logs/app-2026-08-24.log"]: Destruction complete
+  aws_vpc_security_group_egress_rule.app_to_db: Destruction complete
+  aws_s3_object.internal["backups/orders-2026-08-24.sql"]: Destruction complete
+  aws_db_snapshot.review[0]: Destruction complete
+  aws_s3_bucket_policy.data[0]: Destruction complete
+  aws_s3_bucket_policy.site: Destruction complete
+  aws_s3_bucket_website_configuration.site: Destruction complete
+  aws_s3_object.internal["documents/invoice-2026-08.txt"]: Destruction complete
+  aws_vpc_security_group_ingress_rule.db_from_app: Destruction complete
+  aws_s3_object.internal["images/product-photo.svg"]: Destruction complete
+  aws_s3_object.site["error.html"]: Destruction complete
+  aws_s3_bucket_lifecycle_configuration.data[0]: Destruction complete
+  aws_s3_bucket_ownership_controls.data[0]: Destruction complete
+  aws_s3_object.internal["documents/customer-export.csv"]: Destruction complete
+  aws_s3_bucket_public_access_block.data[0]: Destruction complete
+  aws_s3_bucket_public_access_block.site: Destruction complete
+  aws_route_table_association.db[0]: Destruction complete
+  aws_route_table_association.db[1]: Destruction complete
+  aws_s3_bucket_versioning.data[0]: Destruction complete
+  aws_dynamodb_table_item.sample["CUST-1002/SKU-LAMP"]: Destruction complete
+  aws_dynamodb_table_item.sample["CUST-1001/SKU-KETTLE"]: Destruction complete
+  aws_s3_bucket_ownership_controls.site: Destruction complete
+  aws_dynamodb_table_item.sample["CUST-1001/SKU-MUG"]: Destruction complete
+  aws_s3_bucket.data[0]: Destruction complete
+  aws_security_group.app: Destruction complete
+  aws_s3_bucket.site: Destruction complete
+  random_id.suffix: Destruction complete
+  aws_route_table.db: Destruction complete
+  aws_dynamodb_table.carts: Destruction complete
+  aws_db_instance.main: Destruction complete
+  aws_db_subnet_group.main: Destruction complete
+  aws_subnet.db[0]: Destruction complete
+  aws_subnet.db[1]: Destruction complete
+  aws_security_group.db: Destruction complete
+  aws_vpc.main: Destruction complete
+  Destroy complete! Resources: 40 destroyed.
+
+== Leftover check
+  PASS  S3 buckets named davine-wk4-*: 0
+  PASS  RDS instances named davine-wk4-*: 0
+  FAIL  RDS snapshots of davine-wk4-* (manual and automated): got "1", wanted "0"
+  PASS  retained automated backups of davine-wk4-*: 0
+  PASS  DB subnet groups named davine-wk4-*: 0
+  PASS  Secrets Manager secrets tagged for the lab: 0
+  PASS  DynamoDB tables named davine-wk4-*: 0
+  PASS  DynamoDB backups of davine-wk4-carts: 0
+  PASS  VPCs named davine-wk4-vpc: 0
+  PASS  security groups named davine-wk4-*: 0
+  PASS  resources left in the Terraform state: 0
+
+== Teardown: 10 passed, 1 failed
+
+# Second leftover check, 10:55 UTC: the RDS snapshot counted above had been removed by RDS itself.
+== Week 4 teardown (16 November 2026 10:55 UTC, us-east-1)
+
+== Leftover check
+  PASS  S3 buckets named davine-wk4-*: 0
+  PASS  RDS instances named davine-wk4-*: 0
+  PASS  RDS snapshots of davine-wk4-* (manual and automated): 0
+  PASS  retained automated backups of davine-wk4-*: 0
+  PASS  DB subnet groups named davine-wk4-*: 0
+  PASS  Secrets Manager secrets tagged for the lab: 0
+  PASS  DynamoDB tables named davine-wk4-*: 0
+  PASS  DynamoDB backups of davine-wk4-carts: 0
+  PASS  VPCs named davine-wk4-vpc: 0
+  PASS  security groups named davine-wk4-*: 0
+  PASS  resources left in the Terraform state: 0
+
+== Teardown: 11 passed, 0 failed
