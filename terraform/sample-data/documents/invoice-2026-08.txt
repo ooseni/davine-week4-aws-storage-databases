@@ -1,0 +1,8 @@
+SYNTHETIC LAB DATA. Not a real invoice.
+
+Invoice INV-2026-0831        Date: 31 August 2026
+Bill to: Example Customer Ltd, 1 Sample Street, Testville
+
+  2 x Electric kettle      24.99     49.98
+  4 x Stoneware mug         6.50     26.00
+                           Total     75.98 USD

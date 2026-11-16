@@ -1,0 +1,8 @@
+:root { color-scheme: light dark; }
+body { margin: 0; font-family: system-ui, "Segoe UI", Arial, sans-serif; line-height: 1.6; background: #0d1117; color: #e6edf3; }
+main { max-width: 42rem; margin: 12vh auto; padding: 0 1.25rem; }
+h1 { font-size: 2rem; margin: 0.25rem 0 1rem; }
+.tag { color: #a78bfa; font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 0; }
+.small { color: #8b949e; font-size: 0.85rem; }
+a { color: #a78bfa; }
+li { margin-bottom: 0.4rem; }

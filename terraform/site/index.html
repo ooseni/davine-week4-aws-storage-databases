@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Davine week 4 | S3 static website</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p class="tag">Davine Technologies internship | AWS Cloud week 4</p>
+    <h1>Served straight from Amazon S3</h1>
+    <p>This page is three objects in an S3 bucket with static website hosting switched on. There is no server to patch.</p>
+    <ul>
+      <li><strong>Public:</strong> this page, the error page and one stylesheet.</li>
+      <li><strong>Private:</strong> documents, images, logs and backups, in a separate bucket that blocks all public access.</li>
+      <li><strong>Databases:</strong> Amazon RDS for PostgreSQL for orders, Amazon DynamoDB for shopping carts.</li>
+    </ul>
+    <p class="small">Lab page with synthetic data. Built with Terraform.</p>
+  </main>
+</body>
+</html>
