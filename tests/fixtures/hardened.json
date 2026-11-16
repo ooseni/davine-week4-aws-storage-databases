@@ -1,0 +1,135 @@
+{
+ "stage": "hardened",
+ "buckets": [
+  {
+   "name": "davine-wk4-site-a1b2c3",
+   "website": true,
+   "versioning": "",
+   "encryption": "AES256",
+   "lifecycle_rules": 0,
+   "public_access_block": {
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+   },
+   "policy": {
+    "Version": "2012-10-17",
+    "Statement": [
+     {
+      "Sid": "PublicReadForWebsite",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::davine-wk4-site-a1b2c3/*"
+     }
+    ]
+   },
+   "objects": [
+    {
+     "key": "index.html",
+     "storage_class": "STANDARD",
+     "classification": "public"
+    },
+    {
+     "key": "error.html",
+     "storage_class": "STANDARD",
+     "classification": "public"
+    },
+    {
+     "key": "styles.css",
+     "storage_class": "STANDARD",
+     "classification": "public"
+    }
+   ]
+  },
+  {
+   "name": "davine-wk4-data-a1b2c3",
+   "website": false,
+   "versioning": "Enabled",
+   "encryption": "AES256",
+   "lifecycle_rules": 3,
+   "public_access_block": {
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+   },
+   "policy": {
+    "Version": "2012-10-17",
+    "Statement": [
+     {
+      "Sid": "DenyRequestsWithoutTLS",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+       "arn:aws:s3:::davine-wk4-data-a1b2c3",
+       "arn:aws:s3:::davine-wk4-data-a1b2c3/*"
+      ],
+      "Condition": {
+       "Bool": {
+        "aws:SecureTransport": "false"
+       }
+      }
+     }
+    ]
+   },
+   "objects": [
+    {
+     "key": "documents/invoice-2026-08.txt",
+     "storage_class": "STANDARD",
+     "classification": "internal"
+    },
+    {
+     "key": "documents/customer-export.csv",
+     "storage_class": "STANDARD",
+     "classification": "internal"
+    },
+    {
+     "key": "images/product-photo.svg",
+     "storage_class": "INTELLIGENT_TIERING",
+     "classification": "internal"
+    },
+    {
+     "key": "logs/app-2026-08-24.log",
+     "storage_class": "STANDARD_IA",
+     "classification": "internal"
+    },
+    {
+     "key": "backups/orders-2026-08-24.sql",
+     "storage_class": "GLACIER_IR",
+     "classification": "internal"
+    }
+   ]
+  }
+ ],
+ "db_instances": [
+  {
+   "DBInstanceIdentifier": "davine-wk4-postgres",
+   "Engine": "postgres",
+   "PubliclyAccessible": false,
+   "StorageEncrypted": true,
+   "BackupRetentionPeriod": 7,
+   "MultiAZ": false,
+   "DeletionProtection": false
+  }
+ ],
+ "db_snapshots": [
+  {
+   "DBSnapshotIdentifier": "davine-wk4-postgres-review",
+   "DBInstanceIdentifier": "davine-wk4-postgres",
+   "SnapshotType": "manual",
+   "Status": "available",
+   "Encrypted": true
+  }
+ ],
+ "tables": [
+  {
+   "name": "davine-wk4-carts",
+   "billing_mode": "PAY_PER_REQUEST",
+   "pitr": true,
+   "deletion_protection": false
+  }
+ ]
+}
