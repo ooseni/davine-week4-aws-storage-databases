@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Terraform, scripts, storage review and secrets
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Lint this workflow with actionlint
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.8 -color
+
+      - name: Storage review unit tests (Python)
+        run: docker run --rm -v "$PWD:/repo" -w /repo python:3.14.2-slim python -m unittest discover -s tests -v
+
+      - name: ShellCheck the live scripts
+        run: docker run --rm -v "$PWD:/mnt" -w /mnt koalaman/shellcheck:v0.11.0 -x scripts/*.sh tests/*.sh
+
+      - name: Redaction tests
+        run: bash tests/test_redact.sh
+
+      - name: Check no database password is set in code
+        run: |
+          if grep -rnE '^\s*(password|password_wo)\s*=' terraform/*.tf; then
+            echo "The RDS master password must be managed by RDS, never set in Terraform." && exit 1
+          fi
+          grep -q 'manage_master_user_password *= *true' terraform/rds.tf
+          echo "no password in terraform/, RDS manages it"
+
+      - name: Terraform fmt, validate and tests (mocked AWS provider)
+        run: >-
+          docker run --rm -v "$PWD:/repo" -w /repo/terraform --entrypoint sh hashicorp/terraform:1.17.1 -c
+          "terraform fmt -check -recursive && terraform init -backend=false -input=false && terraform validate && terraform test"
+
+      - name: Lint with TFLint
+        run: docker run --rm -v "$PWD:/repo" -w /repo/terraform ghcr.io/terraform-linters/tflint:v0.66.0 --format compact
+
+      - name: Scan with Checkov
+        run: >-
+          docker run --rm -v "$PWD:/repo" bridgecrew/checkov:3.4.3
+          -d /repo/terraform --framework terraform --skip-path tests --quiet --compact
+
+      - name: Scan with Trivy
+        run: docker run --rm -v "$PWD:/repo" aquasec/trivy:0.76.2 config --quiet --exit-code 1 /repo/terraform
+
+      - name: Scan the history for secrets
+        run: >-
+          docker run --rm -v "$PWD:/repo:ro" zricethezav/gitleaks:v8.30.1
+          git --redact --no-banner /repo
